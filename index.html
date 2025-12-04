@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sklep Nightbot</title>
+<style>
+  :root {
+    --bg-color-light: #f9f9f9;
+    --text-color-light: #111;
+    --bg-color-dark: #111;
+    --text-color-dark: #f9f9f9;
+    --primary-color: #4CAF50;
+  }
+
+  body {
+    margin:0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color-light);
+    color: var(--text-color-light);
+    transition: all 0.3s ease;
+  }
+
+  body.dark {
+    background-color: var(--bg-color-dark);
+    color: var(--text-color-dark);
+  }
+
+  header {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:1rem;
+    background-color: var(--primary-color);
+    color:#fff;
+  }
+
+  header h1 {
+    margin:0;
+    font-size:1.5rem;
+  }
+
+  button#theme-toggle {
+    background:none;
+    border:none;
+    color:#fff;
+    font-size:1rem;
+    cursor:pointer;
+  }
+
+  .container {
+    max-width:800px;
+    margin:1rem auto;
+    padding:0 1rem;
+  }
+
+  .item {
+    border:1px solid #ccc;
+    border-radius:8px;
+    padding:1rem;
+    margin-bottom:1rem;
+    display:flex;
+    flex-direction:column;
+    background-color: rgba(255,255,255,0.05);
+    transition: background 0.3s ease, border 0.3s ease;
+  }
+
+  body.dark .item {
+    border:1px solid #555;
+    background-color: rgba(255,255,255,0.1);
+  }
+
+  .item h2 {
+    margin:0 0 0.5rem 0;
+    font-size:1.2rem;
+  }
+
+  .item .cost {
+    font-weight:bold;
+    margin-bottom:0.5rem;
+  }
+
+  @media (max-width:600px){
+    .item {
+      padding:0.8rem;
+    }
+
+    header h1 {
+      font-size:1.2rem;
+    }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Sklep Nightbot</h1>
+  <button id="theme-toggle">🌙 / ☀️</button>
+</header>
+
+<div class="container" id="shop-container">
+  <!-- Przedmioty będą wstawiane tutaj -->
+</div>
+
+<script>
+const shopItems = [
+  {name:"Woda", cost:500, description:"Napij się wody 💦"},
+  {name:"Ciasteczko", cost:300, description:"Zjedz ciasteczko 🍪"},
+  {name:"Energia", cost:700, description:"Dostajesz zastrzyk energii ⚡"}
+];
+
+function renderShop(){
+  const container = document.getElementById('shop-container');
+  container.innerHTML = '';
+  shopItems.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'item';
+    div.innerHTML = `<h2>${item.name}</h2>
+                     <div class="cost">Koszt: ${item.cost} punktów</div>
+                     <div class="description">Opis: ${item.description}</div>`;
+    container.appendChild(div);
+  });
+}
+
+document.getElementById('theme-toggle').addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+});
+
+renderShop();
+</script>
+</body>
+</html>
