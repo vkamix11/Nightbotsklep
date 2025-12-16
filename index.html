@@ -1,133 +1,154 @@
-<!DOCTYPE html>
-<html lang="pl">
+<!DOCTYPE html><html lang="pl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sklep Nightbot</title>
-<style>
-  :root {
-    --bg-color-light: #f9f9f9;
-    --text-color-light: #111;
-    --bg-color-dark: #111;
-    --text-color-dark: #f9f9f9;
-    --primary-color: #4CAF50;
-  }
-
-  body {
-    margin:0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--bg-color-light);
-    color: var(--text-color-light);
-    transition: all 0.3s ease;
-  }
-
-  body.dark {
-    background-color: var(--bg-color-dark);
-    color: var(--text-color-dark);
-  }
-
-  header {
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:1rem;
-    background-color: var(--primary-color);
-    color:#fff;
-  }
-
-  header h1 {
-    margin:0;
-    font-size:1.5rem;
-  }
-
-  button#theme-toggle {
-    background:none;
-    border:none;
-    color:#fff;
-    font-size:1rem;
-    cursor:pointer;
-  }
-
-  .container {
-    max-width:800px;
-    margin:1rem auto;
-    padding:0 1rem;
-  }
-
-  .item {
-    border:1px solid #ccc;
-    border-radius:8px;
-    padding:1rem;
-    margin-bottom:1rem;
-    display:flex;
-    flex-direction:column;
-    background-color: rgba(255,255,255,0.05);
-    transition: background 0.3s ease, border 0.3s ease;
-  }
-
-  body.dark .item {
-    border:1px solid #555;
-    background-color: rgba(255,255,255,0.1);
-  }
-
-  .item h2 {
-    margin:0 0 0.5rem 0;
-    font-size:1.2rem;
-  }
-
-  .item .cost {
-    font-weight:bold;
-    margin-bottom:0.5rem;
-  }
-
-  @media (max-width:600px){
-    .item {
-      padding:0.8rem;
-    }
-
-    header h1 {
-      font-size:1.2rem;
-    }
-  }
-</style>
-</head>
-<body>
-<header>
-  <h1>Sklep Nightbot</h1>
-  <button id="theme-toggle">🌙 / ☀️</button>
-</header>
-
-<div class="container" id="shop-container">
-  <!-- Przedmioty będą wstawiane tutaj -->
-</div>
-
-<script>
-const shopItems = [
-  {name:"Woda", cost:500, description:"Napij się wody 💦"},
-  {name:"Pompki", cost:300, description:"Zrób pompkę"},
-  {name:"Energia", cost:700, description:"Dostajesz zastrzyk energii ⚡"},
-  {name:"Pajacyk", cost:100, description:"Zrób 15 pajacyków na kamerce 🤸"},
-  {name:"Wróżba", cost:1000, description:"Hymora! Czarodzieju wypowiedz swoją wróżbę! 🪄"}
-];
-
-function renderShop(){
-  const container = document.getElementById('shop-container');
-  container.innerHTML = '';
-  shopItems.forEach(item => {
-    const div = document.createElement('div');
-    div.className = 'item';
-    div.innerHTML = `<h2>${item.name}</h2>
-                     <div class="cost">Koszt: ${item.cost} punktów</div>
-                     <div class="description">Opis: ${item.description}</div>`;
-    container.appendChild(div);
-  });
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lista przedmiotów</title>
+  <style>
+    :root {
+      --bg: #0d0d0f;
+      --card: #151518;
+      --text: #f1f1f1;
+      --muted: #9ca3af;
+      --accent: #6366f1;
+    }* {
+  box-sizing: border-box;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-document.getElementById('theme-toggle').addEventListener('click', () => {
-  document.body.classList.toggle('dark');
-});
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  justify-content: center;
+  padding: 40px 16px;
+}
 
-renderShop();
-</script>
+.container {
+  width: 100%;
+  max-width: 900px;
+}
+
+h1 {
+  font-size: 1.8rem;
+  margin-bottom: 24px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.table {
+  background: var(--card);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 4fr;
+  padding: 14px 20px;
+  align-items: center;
+}
+
+.row.header {
+  background: rgba(255,255,255,0.03);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.row:not(.header) {
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+.name {
+  font-weight: 500;
+}
+
+.price {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.desc {
+  color: #e5e7eb;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 600px) {
+  .row {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .row.header {
+    display: none;
+  }
+  .price {
+    font-size: 0.9rem;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Lista przedmiotów</h1><div class="table">
+  <div class="row header">
+    <div>Nazwa</div>
+    <div>Koszt</div>
+    <div>Opis</div>
+  </div>
+
+  <div class="row">
+    <div class="name">woda</div>
+    <div class="price">500</div>
+    <div class="desc">Napij się wody 💦</div>
+  </div>
+
+  <div class="row">
+    <div class="name">pompka</div>
+    <div class="price">300</div>
+    <div class="desc">Zrób pompkę.</div>
+  </div>
+
+  <div class="row">
+    <div class="name">energia</div>
+    <div class="price">700</div>
+    <div class="desc">Dostajesz zastrzyk energii ⚡</div>
+  </div>
+
+  <div class="row">
+    <div class="name">pajacyk</div>
+    <div class="price">100</div>
+    <div class="desc">Zrób 15 pajacyków na kamerze</div>
+  </div>
+
+  <div class="row">
+    <div class="name">wróżba</div>
+    <div class="price">1000</div>
+    <div class="desc">Hymora! Czarodzieju wypowiedz wróżbę! 🪄</div>
+  </div>
+
+  <div class="row">
+    <div class="name">świeca</div>
+    <div class="price">800</div>
+    <div class="desc">Zrób świecę Hymora! Wytrzymaj przynajmniej 30 sek</div>
+  </div>
+
+  <div class="row">
+    <div class="name">dsj4</div>
+    <div class="price">300</div>
+    <div class="desc">Zagraj 1 skocznię Hymora. Jedna wybrana przez użytkownika.</div>
+  </div>
+
+  <div class="row">
+    <div class="name">Turniej</div>
+    <div class="price">800</div>
+    <div class="desc">Węż zagraj turniej 4 skoczni wybranych przez użytkownika. Hymora!</div>
+  </div>
+</div>
+
+  </div>
 </body>
 </html>
